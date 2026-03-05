@@ -27,9 +27,29 @@ function draw() {
     let cellW = width / cols;
     let cellH = height / rows;
 
-
+    noStroke();
     // Loop through the sizes
+    for (let i = 0; i < cols; i++) {
 
+        for (let j = 0; j < rows; j++) {
+            let index = i + (j*cols);
+            let x = cellW * i + cellW / 2;
+            let y = cellH * j + cellH / 2;
+
+            //Default fill
+            fill(0, 100, 255);
+            //Selected fill
+            if (index == foundIndex) {
+                fill("red");
+            }
+            circle(x, y, sizes[index]);
+
+
+            //Drqaw text
+            fill("white");
+            text(sizes[index], x, y);
+        }
+    }
     // Drawing
     // Check for found index: red or blue
 
@@ -38,14 +58,25 @@ function draw() {
 
 function resetData() {
     //generate sizes
+    sizes = [];
+    for (let i = 0; i < numCircles; i++) {
+        let randomSize = Math.round(random(10, 100));
+        sizes.push(randomSize);
+    }
     //reset foundIndex
+
+    console.log(sizes);
     //calculate stats
 
 }
 
 function findValue() {
     //get input value
+    valueToFind = document.querySelector("#find-input").value;
     //search for value
+    foundIndex = sizes.findIndex(function(sizes) {
+
+    });
 
     //if value not found, alert
     if (foundIndex == -1) {
@@ -55,18 +86,42 @@ function findValue() {
 
 function sortUp() {
     // sort ascending
+    console.log("Sorteer van klein naar groot");
+    sizes.sort(function(sizeA, sizeB){
+        if(sizeA < sizeB) {
+            return -1;
+        } else {
+            return 1;
+        }
+    });
 
+    console.log(sizes);
 }
 
 function sortDown() {
     // sort descending
+    console.log("Sorteer van groot naar klein");
+    sizes.sort(function(sizeA, sizeB){
+        if(sizeA < sizeB) {
+            return 1;
+        } else {
+            return -1;
+        }
+    });
 
+    console.log(sizes);
 }
 
 function calculateStats() {
     //use reduce to calculate total
+    let total = sizes.reduce(function(sum, size){
+        return sum + size;
+    });
 
+    console.log("Total", total);
     //calculate average
-
+    let average = total/ sizes.length;
     //add both to DOM
+    document.querySelector("#btn-sort-up");
+    document.querySelector("btn-sort-down");
 }
